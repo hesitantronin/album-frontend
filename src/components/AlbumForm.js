@@ -1,99 +1,83 @@
-import React, { useState } from 'react';
-import { Card, CardContent, TextField, Button } from '@mui/material';
+import React from 'react';
+import { Card, CardContent, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 
-const AlbumForm = ({ album, onSubmit, onRemove }) => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: album || {
-      name: '',
-      artist: '',
-      imageUrl: '',
-    },
-  });
+const AlbumForm = ({ album, onSubmit }) => {
+    const { handleSubmit, control } = useForm({
+        defaultValues: album || {
+            name: "",
+            artist: "",
+            imageUrl: "",
+        },
+    });
 
-  const [albumData, setAlbumData] = useState(album || { name: '', artist: '', imageUrl: '' });
+    const showSubmitButton = !album;
 
-  const handleFormSubmit = (formData) => {
-    onSubmit(formData);
-  };
+    return (
+        <Card>
+            <CardContent>
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAlbumData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name="name"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                id="name"
+                                label="Name"
+                                variant="filled"
+                                fullWidth
+                                margin="normal"
+                            />
+                        )}
+                        margin="normal"
+                    />
 
-  return (
-    <Card>
-      <CardContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Controller
-            name="name"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Name"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={albumData.name}
-                onChange={handleInputChange}
-              />
-            )}
-          />
-          <Controller
-            name="artist"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Artist"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={albumData.artist}
-                onChange={handleInputChange}
-              />
-            )}
-          />
-          <Controller
-            name="imageUrl"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Image URL"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={albumData.imageUrl}
-                onChange={handleInputChange}
-              />
-            )}
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Save
-          </Button>
-          {onRemove && (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onRemove}
-              style={{ marginLeft: '10px' }}
-            >
-              Delete
-            </Button>
-          )}
-        </form>
-      </CardContent>
-    </Card>
-  );
+                    <Controller
+                        name="artist"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                id="artist"
+                                label="Artist"
+                                variant="filled"
+                                fullWidth
+                                margin="normal"
+                            />
+                        )}
+                        margin="normal"
+                    />
+
+                    <Controller
+                        name="imageUrl"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                id="imageUrl"
+                                label="Album cover"
+                                variant="filled"
+                                fullWidth
+                                margin="normal"
+                            />
+                        )}
+                        margin="normal"
+                    />
+
+                    {showSubmitButton && ( // Conditionally render the submit button
+                            <button type="submit">Submit</button>
+                        )}
+
+                </form>
+
+            </CardContent>
+        </Card>
+    );
 };
 
 export default AlbumForm;
