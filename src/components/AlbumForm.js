@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, TextField, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -11,21 +11,37 @@ const AlbumForm = ({ album, onSubmit, onRemove }) => {
     },
   });
 
+  const [albumData, setAlbumData] = useState(album || { name: '', artist: '', imageUrl: '' });
+
+  const handleFormSubmit = (formData) => {
+    onSubmit(formData);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAlbumData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <Card>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Controller
             name="name"
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
+                {...field}
                 label="Name"
                 variant="outlined"
-                {...field}
                 margin="normal"
                 fullWidth
+                value={albumData.name}
+                onChange={handleInputChange}
               />
             )}
           />
@@ -35,11 +51,13 @@ const AlbumForm = ({ album, onSubmit, onRemove }) => {
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
+                {...field}
                 label="Artist"
                 variant="outlined"
-                {...field}
                 margin="normal"
                 fullWidth
+                value={albumData.artist}
+                onChange={handleInputChange}
               />
             )}
           />
@@ -49,11 +67,13 @@ const AlbumForm = ({ album, onSubmit, onRemove }) => {
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
+                {...field}
                 label="Image URL"
                 variant="outlined"
-                {...field}
                 margin="normal"
                 fullWidth
+                value={albumData.imageUrl}
+                onChange={handleInputChange}
               />
             )}
           />
