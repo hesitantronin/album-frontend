@@ -1,5 +1,7 @@
 import React from 'react';
-import { Container, Grid } from '@mui/material';
+import { Button, Container, Grid } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import AlbumCard from './AlbumCard';
 import useAlbums from '../hooks/useAlbums';
 
@@ -9,6 +11,15 @@ const AlbumOverview = () => {
 
   return (
     <Container>
+      <Button
+        component={Link}
+        to="/new"
+        variant="contained"
+        color="primary"
+        style={{ marginBottom: '20px' }}
+      >
+        Add New Album
+      </Button>
       <Grid container spacing={4}>
         {albums.map((album) => (
           <Grid item xs={12} md={4} key={album.id}>
