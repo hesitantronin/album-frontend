@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Container, Grid } from '@mui/material';
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Button, Container, Grid } from '@mui/material';;
 import { Link } from 'react-router-dom';
 import AlbumCard from './AlbumCard';
 import useAlbums from '../hooks/useAlbums';
