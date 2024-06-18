@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, Routes, Route  } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Container } from '@mui/material';
 import AlbumOverview from './components/AlbumOverview';
 
+// App component
 
 function App() {
   return (
