@@ -1,22 +1,25 @@
-import React from 'react';
-import { Card, CardContent, TextField } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Card, CardContent, TextField, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 
-const AlbumForm = ({ album, onSubmit }) => {
-    const { handleSubmit, control } = useForm({
-        defaultValues: album || {
+const AlbumForm = ({ album, onSubmit, onRemove }) => {
+    const { handleSubmit, control, reset } = useForm({
+        defaultValues: {
             name: "",
             artist: "",
             imageUrl: "",
         },
     });
 
-    const showSubmitButton = !album;
+    useEffect(() => {
+        if (album) {
+            reset(album);
+        }
+    }, [album, reset]);
 
     return (
         <Card>
             <CardContent>
-
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name="name"
@@ -32,7 +35,6 @@ const AlbumForm = ({ album, onSubmit }) => {
                                 margin="normal"
                             />
                         )}
-                        margin="normal"
                     />
 
                     <Controller
@@ -49,7 +51,6 @@ const AlbumForm = ({ album, onSubmit }) => {
                                 margin="normal"
                             />
                         )}
-                        margin="normal"
                     />
 
                     <Controller
@@ -66,15 +67,23 @@ const AlbumForm = ({ album, onSubmit }) => {
                                 margin="normal"
                             />
                         )}
-                        margin="normal"
                     />
 
-                    {showSubmitButton && ( // Conditionally render the submit button
-                            <button type="submit">Submit</button>
-                        )}
-
+                    <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                        Submit
+                    </Button>
+                    {onRemove && (
+                        <Button
+                            type="button"
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginTop: '20px', marginLeft: '20px' }}
+                            onClick={onRemove}
+                        >
+                            Delete
+                        </Button>
+                    )}
                 </form>
-
             </CardContent>
         </Card>
     );
